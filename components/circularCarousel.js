@@ -4,7 +4,7 @@ import { useSharedValue } from "react-native-reanimated";
 
 const {width} = Dimensions.get("screen");
 
-export default function CircularCarousel({data}){
+export default function CircularCarousel({data,onActiveIndexChange,onScroll}){
 
     const contentOffset = useSharedValue(0);
 
@@ -18,7 +18,10 @@ export default function CircularCarousel({data}){
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
                 onScroll={(event)=>{
-                    contentOffset.value = event.nativeEvent.contentOffset.x
+                    contentOffset.value = event.nativeEvent.contentOffset.x;
+                    const activeIndex = Math.round(event.nativeEvent.contentOffset.x / ListItemWidth);
+                    onActiveIndexChange && onActiveIndexChange(activeIndex);
+                    onScroll && onScroll(event);
                 }}
 
                 style={{width:width}}
@@ -27,7 +30,7 @@ export default function CircularCarousel({data}){
                     alignItems:"flex-end",
                     // justifyContent:"center",
                     paddingHorizontal: 2 * ListItemWidth,
-                    paddingBottom:4
+                    paddingBottom:18
 
                 }}
                 horizontal

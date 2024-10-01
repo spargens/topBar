@@ -7,8 +7,6 @@ const {width} = Dimensions.get("window");
 export const ListItemWidth = width/5;
 
 export default function ListItem({src,index,contentOffset}){
-  console.log("index",index)
-
     const animatedStyle = useAnimatedStyle(()=>{
         const inputRange = [
             (index - 2) * ListItemWidth,
@@ -18,7 +16,8 @@ export default function ListItem({src,index,contentOffset}){
             (index + 2) * ListItemWidth,
           ];
       
-          const translateYOutputRange =  [-ListItemWidth, -ListItemWidth / 4, 0,-ListItemWidth / 4, -ListItemWidth]
+          const translateYOutputRange =  [-ListItemWidth-8, -ListItemWidth / 3, 0,-ListItemWidth / 3, -ListItemWidth-8]
+          const translateXOutputRange = [ListItemWidth / 3, ListItemWidth / 4, 0, -ListItemWidth/4, -ListItemWidth / 3];
       
           const opacityOutputRange = [0.7, 0.9, 1, 0.9, 0.7];
       
@@ -30,6 +29,13 @@ export default function ListItem({src,index,contentOffset}){
             translateYOutputRange,
             Extrapolation.CLAMP
           );
+
+          const translateX = interpolate(
+            contentOffset.value,
+            inputRange,
+            translateXOutputRange,
+            Extrapolation.CLAMP
+        );
       
           const opacity = interpolate(
             contentOffset.value,
@@ -52,6 +58,9 @@ export default function ListItem({src,index,contentOffset}){
                 translateY
               },
               {
+                translateX
+              },
+              {
                 scale,
               },
             ],
@@ -61,14 +70,16 @@ export default function ListItem({src,index,contentOffset}){
     return (
         <Animated.View style={[{
             width:ListItemWidth,
-            aspectRatio:1,
+            height:ListItemWidth,
+            // aspectRatio:1,
             borderRadius:50,
+            // borderWidth:1
         },animatedStyle]}>
             <Image source={src} style={{
                 borderRadius:50,
                 width:"100%",
                 height:"100%",
-                borderWidth:1
+                borderWidth:1,
             }} />
         </Animated.View>
     )
