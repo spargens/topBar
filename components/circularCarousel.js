@@ -4,24 +4,26 @@ import { useSharedValue } from "react-native-reanimated";
 
 const {width} = Dimensions.get("screen");
 
-export default function CircularCarousel({data,onActiveIndexChange,onScroll}){
+export default function CircularCarousel({data,onChange}){
 
     const contentOffset = useSharedValue(0);
-
+        
 
     return (
             <FlatList
             data={data}
             keyExtractor={(_,index)=>index.toString()}
-                scrollEventThrottle={16}
+                scrollEventThrottle={8}
                 snapToInterval={ListItemWidth}
+                
+                decelerationRate="fast"
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
                 onScroll={(event)=>{
                     contentOffset.value = event.nativeEvent.contentOffset.x;
-                    const activeIndex = Math.round(event.nativeEvent.contentOffset.x / ListItemWidth);
-                    onActiveIndexChange && onActiveIndexChange(activeIndex);
-                    onScroll && onScroll(event);
+                    const activeIndex = Math.round(contentOffset.value/ListItemWidth);
+
+                    onChange && onChange(activeIndex);
                 }}
 
                 style={{width:width}}
@@ -30,7 +32,7 @@ export default function CircularCarousel({data,onActiveIndexChange,onScroll}){
                     alignItems:"flex-end",
                     // justifyContent:"center",
                     paddingHorizontal: 2 * ListItemWidth,
-                    paddingBottom:18
+                    paddingBottom:18,
 
                 }}
                 horizontal
