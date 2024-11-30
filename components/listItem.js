@@ -18,7 +18,7 @@ export default function ListItem({src,index,contentOffset}){
       
           const translateYOutputRange =  [-ListItemWidth-8, -ListItemWidth / 3, 0,-ListItemWidth / 3, -ListItemWidth-8]
           const translateXOutputRange = [ListItemWidth / 3, ListItemWidth / 4, 0, -ListItemWidth/4, -ListItemWidth / 3];
-      
+       
           const opacityOutputRange = [0.7, 0.9, 1, 0.9, 0.7];
       
           const scaleOutputRange = [0.9, 0.9, 1, 0.9, 0.9];
